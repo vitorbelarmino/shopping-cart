@@ -1,4 +1,3 @@
-
 const fetchItem = async (item) => {
 try {
   const url = `https://api.mercadolibre.com/items/${item}`;
