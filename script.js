@@ -21,6 +21,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.remove();
+  saveCartItems(cartList.innerHTML);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -34,6 +35,7 @@ async function addCartItems(event) {
   const productId = getSkuFromProductItem(event.target.parentNode);
   const product = await fetchItem(productId);
   createCartItemElement(product);
+  saveCartItems(cartList.innerHTML);
 }
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
@@ -41,7 +43,7 @@ function createProductItemElement({ sku, name, image }) {
   
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
+  section.appendChild(createProductImageElement(image.replace('I.jpg', 'J.jpg')));
   const btn = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   btn.addEventListener('click', addCartItems);
   section.appendChild(btn);
@@ -62,9 +64,21 @@ async function getElements() {
 }
 
 const btnEmpty = document.querySelector('.empty-cart');
-btnEmpty.addEventListener('click', () => {
+  btnEmpty.addEventListener('click', () => {
   cartList.innerHTML = '';
+  saveCartItems(' ');
 });
 
+function chamaStorage() {
+  cartList.innerHTML = getSavedCartItems();
+  const getStorage = document.getElementsByClassName('cart__item');
+  console.log(getStorage);
+  [...getStorage].forEach((ele) => {
+    ele.addEventListener('click', cartItemClickListener);
+  });
+}
+// usei spreed opereitor para espalhar HTMLCollection, e criar um array.
 getElements();
-window.onload = () => { };
+chamaStorage();
+window.onload = () => { 
+};
