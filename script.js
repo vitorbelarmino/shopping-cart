@@ -27,8 +27,8 @@ function cartPrice() {
     const newValue = item.innerHTML.split('PRICE: $')[1];// Retorna um htmlColection,na possição 1 se encontra o preço.
     total += parseFloat(newValue);
   });
-  subtTotal.innerHTML = total;
-  console.log(subtTotal);
+  const total2 = total.toFixed(2);
+  subtTotal.innerHTML = parseFloat(total2);
 }
 
 function cartItemClickListener(event) {
@@ -66,6 +66,11 @@ function createProductItemElement({ sku, name, image }) {
   itemList.appendChild(section);
 }
 
+function removeLoading() {
+  const getDiv = document.querySelector('.div-loading');
+  getDiv.remove();
+}
+
 async function getElements() {
   const elements = await fetchProducts('computador');
   elements.results.forEach((ele) => {
@@ -77,6 +82,7 @@ async function getElements() {
     };
     createProductItemElement(objs);
   });
+  removeLoading();
 }
 
 const btnEmpty = document.querySelector('.empty-cart');
@@ -95,8 +101,20 @@ function chamaStorage() {
 }
 // usei spreed opereitor para espalhar HTMLCollection, e criar um array.
 
-getElements();
-chamaStorage();
-cartPrice();
+function adicionaLoading() {
+  const header = document.querySelector('.header');
+  const div = document.createElement('div');
+  div.className = 'div-loading';
+  const p = document.createElement('p');
+  p.className = 'loading';
+  p.innerText = 'carregando...';
+  header.appendChild(div);
+  div.appendChild(p);
+}
+
 window.onload = () => { 
+  adicionaLoading();
+  getElements();
+  chamaStorage();
+  cartPrice();
 };
