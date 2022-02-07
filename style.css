@@ -149,6 +149,19 @@ body {
 }
 
 .cart__item {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  margin-top: 5px;
+  padding: 10px;
+  border: 2px solid grey;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.div-price {
+  display: flex;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+p {
+  font-size: 20px;
 }
